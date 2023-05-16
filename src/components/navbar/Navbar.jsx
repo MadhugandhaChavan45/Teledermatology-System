@@ -21,9 +21,10 @@ function Navbar(props) {
     const navigate = useNavigate();
     // const pid=props.pid;
     // console.log("Inside navbar",pid)
-    const {did}=useParams();
-    console.log("Here Navbar",did);
+    const {pid}=useParams();
+    console.log("Here Navbar",pid);
     const handleLogout=()=>{
+        // logout.signout();
         navigate(`/`);
     };
     return (
@@ -33,13 +34,15 @@ function Navbar(props) {
                     <Typography variant="h6" className={classes.title}>
                         Teledermatology System
                     </Typography>
-                    <Button color="inherit" onClick={()=>navigate(`/home/${did}`)}>Home</Button>
-                    <Button color="inherit" onClick={()=>navigate(`/makediagnosis/${did}`)}>Make Diagnosis</Button>
+                    {/*<Button color="inherit" onClick={()=>navigate("/home",{state:{pid:pid}})}>Home</Button>*/}
+                    <Button color="inherit" onClick={()=>navigate(`/home/${pid}`)}>Home</Button>
+                    <Button color="inherit" onClick={()=>navigate(`/newrequest/${pid}`)}>New request</Button>
+                    <Button color="inherit" onClick={()=>navigate(`/viewdiagnosis/${pid}`)}>View Diagnosis</Button>
                     <Button color="inherit" onClick={()=>handleLogout()}>Logout</Button>
                 </Toolbar>
             </AppBar>
-        </div>
-    );
+            </div>
+        );
 };
 
 export default Navbar;

@@ -4,9 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import signin from "../../services/Signin";
-import { ToastContainer, toast } from "react-toastify";
+import {toast} from "react-toastify";
 import axios from "axios";
 import app from "../../App";
+import MyContext from "../../components/MyContext/MyContext"
+import MyContextProvider from "../../components/MyContext/MyContextProvider";
 import Home from "../home/Home";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +36,54 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate=useNavigate();
-    const [did_1, setDid]=useState('Random');
+    const [pid_1, setPid]=useState('Random');
+    // const {pid, setPid} = React.useContext(MyContext)
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     console.log(`Username: ${username}, Password: ${password}`);
+    //     const bodyParameters={
+    //         'Username':username,
+    //         'Password':password
+    //     }
+    //     console.log(bodyParameters)
+    //     signin.login(bodyParameters)
+    //         .then((response) => {
+    //             console.log(response)
+    //             if (response.status === 200) {
+    //                 toast.success("Successfully logged in!!", {
+    //                     position: "bottom-right",
+    //                     autoClose: 1000,
+    //                     hideProgressBar: false,
+    //                     closeOnClick: true,
+    //                     pauseOnHover: true,
+    //                     draggable: true,
+    //                     progress: undefined,
+    //                 })
+    //                 // localStorage.setItem(response.data['id'],response.data['token'])
+    //                 // window.localStorage.setItem(response.data['id']+"-"+response.data['token'],response.data['id']+"-"+response.data['role'])
+    //                 // nav(`/home/${response.data['id']}/${response.data['name']}`);
+    //                 // // ${response.data['id']}
+    //
+    //             }
+    //         })
+    // }
+
+    // const [token, setToken] = useState(null);
+
+    // // function to check if the user is authenticated
+    // const isAuthenticated = () => {
+    //     return token !== null;
+    // }
+    //
+    // useEffect(() => {
+    //     // check for the token in cookies when the component mounts
+    //     const tokenFromCookie = getCookie('token');
+    //     if (tokenFromCookie) {
+    //         setToken(tokenFromCookie);
+    //     }
+    // }, []);
+
+    // function to get a cookie by name
     function getCookie(cname) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
@@ -86,34 +135,20 @@ const Login = () => {
                 .then((response) => {
                     if (response.status === 200) {
                         console.log(response)
-                        console.log("From Response", response.data.did)
-                        console.log(response.data.did)
-                        setDid(response.data.did)
-                        console.log("After Setting", {did_1})
+                        console.log("From Response", response.data.pid)
+                        console.log(response.data.pid)
+                        setPid(response.data.pid)
+                        console.log("After Setting", {pid_1})
                         toast.success("Logged in successfully")
                         console.log("response here"+response)
-                        console.log("inside",response.data.did)
+                        console.log("inside",response.data.pid)
                         // navigate('/home/',{state:{pid:response.data.pid}})
                         // navigate('/home')
                         // nav(`/new-consent-request/${did}/${name}`)
-                        navigate(`/home/${response.data.did}`)
+                        navigate(`/home/${response.data.pid}`)
                         // <Link to=
                         console.log("HI")
                     }
-                })
-                .catch((error) => {
-                    console.log(error)
-                    navigate("/")
-                    toast.error("Error Logging In!!", {
-                        position: "bottom-right",
-                        autoClose: 1000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    })
-
                 });
             // setCookie('token', response.getData(), 7);
             // const pid=response.data.pid
@@ -184,17 +219,9 @@ const Login = () => {
                     </Grid>
                 </form>
             </div>
-            {/*<ToastContainer*/}
-            {/*    position="top-center"*/}
-            {/*    autoClose={5000}*/}
-            {/*    hideProgressBar={false}*/}
-            {/*    newestOnTop={false}*/}
-            {/*    closeOnClick*/}
-            {/*    rtl={false}*/}
-            {/*    pauseOnFocusLoss*/}
-            {/*    draggable*/}
-            {/*    pauseOnHover*/}
-            {/*/>*/}
+            {console.log("PID Before Passing to Context", pid_1)}
+            <MyContext.Provider value={{pid:pid_1}}>
+            </MyContext.Provider>
         </Container>
     );
 };

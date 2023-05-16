@@ -29,7 +29,7 @@ export default function Register() {
     const [lname, setLname] = useState('');
     const [aadhar, setAadhar] = useState('');
     const [email, setEmail] = useState('');
-    const [did, setDid] = useState('');
+    const [pid, setPid] = useState('');
     const [password, setPassword] = useState('');
     const [token, setToken] = useState(null);
     const getCookie = (name) => {
@@ -56,7 +56,7 @@ export default function Register() {
         // event.preventDefault();
         console.log(`Email: ${email}\nPassword: ${password}`);
         const data={
-            'did':did,
+            'pid':pid,
             'aadhaar':aadhar,
             'fname':fname,
             'lname':lname,
@@ -65,17 +65,19 @@ export default function Register() {
             'role':''
         }
         console.log(data)
-        const res=await register.register_doctor(data)
+        // const res=await axios.post('http://localhost:8092/patient_end/api/v1/auth/register', data)
+        const res=await register.register_patient(data)
         console.log(res)
-        navigate(`/home/${res.data.did}`)
+        console.log(pid)
+        navigate(`/home/`,{state:{prop:pid}})
     };
     return (
         <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
                 className={classes.textField}
-                label="Doctor ID"
-                value={did}
-                onChange={(event) => setDid(event.target.value)}
+                label="Patient ID"
+                value={pid}
+                onChange={(event) => setPid(event.target.value)}
             />
             <TextField
                 className={classes.textField}
@@ -110,10 +112,10 @@ export default function Register() {
                 onChange={(event) => setAadhar(event.target.value)}
             />
             <Button onClick={()=>{handleSubmit()}}
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                type="submit"
             >
                 Register
             </Button>
